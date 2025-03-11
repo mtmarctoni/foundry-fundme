@@ -51,7 +51,10 @@ zk-anvil:
 	npx zksync-cli dev start
 
 deploy:
-	@forge script script/DeployFundMe.s.sol:DeployFundMe $(NETWORK_ARGS)
+	@forge script script/FundMe.s.sol:DeployFundMe $(NETWORK_ARGS)
+
+deploy-host:
+	@forge script script/FundMe.s.sol:DeployFundMe --rpc-url http://172.29.166.165:8545 --private-key $(DEFAULT_ANVIL_KEY) --broadcast
 
 NETWORK_ARGS := --rpc-url http://localhost:8545 --private-key $(DEFAULT_ANVIL_KEY) --broadcast
 
