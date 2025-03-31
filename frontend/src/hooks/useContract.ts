@@ -40,6 +40,7 @@ export function useContract(provider: Provider) {
         const price = Number(ethers.formatUnits(priceInWei, 18))
         setEthPrice(price)
         return price
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
           if (String(err.message).includes('not decode result data')) {
               setError('Contract not deploy yet in this network');
