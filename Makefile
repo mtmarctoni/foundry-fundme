@@ -3,8 +3,9 @@
 # just saying all those commands are not folders or files
 .PHONY: all test clean deploy fund help install snapshot format anvil zktest
 
-DEFAULT_ANVIL_KEY := 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
-DEFAULT_ZKSYNC_LOCAL_KEY := 0x7726827caac94a7f9e1b160f7ea819f172f7b6f9d2a97f992c38edeab82d4110
+DEFAULT_ANVIL_KEY := $(DEFAULT_ANVIL_KEY)
+DEFAULT_ZKSYNC_LOCAL_KEY := $(DEFAULT_ZKSYNC_LOCAL_KEY)
+HOST_ADDRESS := $(HOST_ADDRESS)
 
 all: clean remove install update build
 
@@ -17,9 +18,9 @@ remove:
 	rm -rf .gitmodules && rm -rf .git/modules/* && rm -rf lib 
 	&& touch .gitmodules && git add . && git commit -m "modules"
 
+# 'forge install cyfrin/foundry-devops@0.2.2 --no-commit' is optional
 install:
-	forge install cyfrin/foundry-devops@0.2.2 --no-commit 
-	&& forge install smartcontractkit/chainlink-brownie-contracts@1.1.1 --no-commit 
+	forge install smartcontractkit/chainlink-brownie-contracts@1.1.1 --no-commit 
 	&& forge install foundry-rs/forge-std@v1.8.2 --no-commit
 
 # Update Dependencies
@@ -54,7 +55,7 @@ deploy:
 	@forge script script/FundMe.s.sol:DeployFundMe $(NETWORK_ARGS)
 
 deploy-host:
-	@forge script script/FundMe.s.sol:DeployFundMe --rpc-url http://172.29.166.165:8545 --private-key $(DEFAULT_ANVIL_KEY) --broadcast
+	@forge script script/FundMe.s.sol:DeployFundMe --rpc-url $(HOST_ADDRESS) --private-key $(DEFAULT_ANVIL_KEY) --broadcast
 
 NETWORK_ARGS := --rpc-url http://localhost:8545 --private-key $(DEFAULT_ANVIL_KEY) --broadcast
 
